@@ -3,8 +3,6 @@ package io.github.goldbigdragon.sawwavemanager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
@@ -12,38 +10,38 @@ import java.util.ArrayList;
 public class Main extends JFrame {
     private static final long serialVersionUID = 0001L;
 
-    public static JTextField PC_IP_Client = new JTextField("192.168.1.202");
-    public static JTextField PC_IP_Server = new JTextField("192.168.1.101");
-    public static JTextField Web_IP_Client = new JTextField("192.168.1.253:8080");
-    public static JTextField Web_IP_Server = new JTextField("192.168.1.254:8080");
-    public static JCheckBox Sound = new JCheckBox();
+    public static JTextField pcIpClient = new JTextField("192.168.1.202");
+    public static JTextField pcIpServer = new JTextField("192.168.1.101");
+    public static JTextField webIpClient = new JTextField("192.168.1.253:8080");
+    public static JTextField webIpServer = new JTextField("192.168.1.254:8080");
+    public static JCheckBox sound = new JCheckBox();
 
-    public static JTextField Web_ID_Client = new JTextField("admin");
-    public static JPasswordField Web_PW_Client = new JPasswordField("sawwave12#$");
-    public static JTextField Web_ID_Server = new JTextField("admin");
-    public static JPasswordField Web_PW_Server = new JPasswordField("sawwave12#$");
+    public static JTextField webIdClient = new JTextField("admin");
+    public static JPasswordField webPwClient = new JPasswordField("sawwave12#$");
+    public static JTextField webIdServer = new JTextField("admin");
+    public static JPasswordField webPwServer = new JPasswordField("sawwave12#$");
 
-    public static JTextField mySqlID = new JTextField("　　　　　　　　　　"); // MySQL 유저 이름 입력 필드
+    public static JTextField mySqlId = new JTextField("　　　　　　　　　　"); // MySQL 유저 이름 입력 필드
     public static JPasswordField mySqlPassword = new JPasswordField("               　　　　　"); // MySQL 유저 암호 입력 필드
     public static JTextField mySqlAddress = new JTextField("　　　　　　　　　　"); // MySQL 주소 입력 필드
     public static JTextField mySqlPort = new JTextField("　　　　　　　　　　"); // MySQL 포트 입력 필드
 
-    public static JTextField Distance = new JTextField("1.00");
-    public static JButton StartButton; // Start 버튼
-    public static JButton PrintReport; // PrintReport 버튼
+    public static JTextField distance = new JTextField("1.00");
+    public static JButton startButton; // Start 버튼
+    public static JButton printReport; // printReport 버튼
 
-    public static final String[] LogList = null;
+    public static final String[] logList = null;
 
     public static JTable table; //현재 상황을 나타내어 줄 것
 
     public static boolean started; //시작 변수
 
     public static JFrame SWM;
-    public static JLabel Information = new JLabel("　　　　　　　　　　　설정 이후, 시작 버튼을 클릭 해 주세요.　　　　　　　　　　　"); // 현재 상태를 나타내는 바.
+    public static JLabel information = new JLabel("　　　　　　　　　　　설정 이후, 시작 버튼을 클릭 해 주세요.　　　　　　　　　　　"); // 현재 상태를 나타내는 바.
 
-    public static Object_Truck Truck = null;
+    public static Object_Truck truck = null;
 
-    public static ArrayList<String> BufferStore = new ArrayList<String>();
+    public static ArrayList<String> BufferStore = new ArrayList<>();
 
     //SawWave Manager GUI판을 만들어 주는 메소드
     public Main() {
@@ -69,7 +67,7 @@ public class Main extends JFrame {
         SqlPanel.setBorder(BorderFactory.createTitledBorder("MySQL"));
         SqlPanel.setLayout(layout);
         SqlPanel.add(new JLabel("SQL ID : "));
-        SqlPanel.add(mySqlID);
+        SqlPanel.add(mySqlId);
         SqlPanel.add(new JLabel("　SQL PW : "));
         SqlPanel.add(mySqlPassword);
         putBlankLabel(constraints, layout, SqlPanel);
@@ -82,32 +80,32 @@ public class Main extends JFrame {
         DistancePane.setBorder(BorderFactory.createTitledBorder("거리"));
         DistancePane.setLayout(layout);
         DistancePane.add(new JLabel("거리 : "));
-        DistancePane.add(Distance);
+        DistancePane.add(distance);
         DistancePane.add(new JLabel("Km"));
 
         JPanel ServerSide = new JPanel();
         ServerSide.setBorder(BorderFactory.createTitledBorder("Server 측"));
         ServerSide.setLayout(new GridBagLayout());
         ServerSide.add(new JLabel("　PC-IP : "));
-        ServerSide.add(PC_IP_Server);
+        ServerSide.add(pcIpServer);
         ServerSide.add(new JLabel("　WEB-IP : "));
-        ServerSide.add(Web_IP_Server);
+        ServerSide.add(webIpServer);
         ServerSide.add(new JLabel("　ID : "));
-        ServerSide.add(Web_ID_Server);
+        ServerSide.add(webIdServer);
         ServerSide.add(new JLabel("　PW : "));
-        ServerSide.add(Web_PW_Server);
+        ServerSide.add(webPwServer);
 
         JPanel ClientSide = new JPanel();
         ClientSide.setBorder(BorderFactory.createTitledBorder("Clinet 측"));
         ClientSide.setLayout(new GridBagLayout());
         ClientSide.add(new JLabel("　PC-IP : "));
-        ClientSide.add(PC_IP_Client);
+        ClientSide.add(pcIpClient);
         ClientSide.add(new JLabel("　WEB-IP : "));
-        ClientSide.add(Web_IP_Client);
+        ClientSide.add(webIpClient);
         ClientSide.add(new JLabel("　ID : "));
-        ClientSide.add(Web_ID_Client);
+        ClientSide.add(webIdClient);
         ClientSide.add(new JLabel("　PW : "));
-        ClientSide.add(Web_PW_Client);
+        ClientSide.add(webPwClient);
 
         SettingPane.add(SqlPanel);
         SettingPane.add(DistancePane);
@@ -115,15 +113,15 @@ public class Main extends JFrame {
         SettingPane.add(ClientSide);
 
         JPanel StartPane = new JPanel();
-        StartButton = new JButton("                                         시작                                         ");
-        StartPane.add(StartButton);
-        PrintReport = new JButton("보고서 출력");
-        StartPane.add(PrintReport);
+        startButton = new JButton("                                         시작                                         ");
+        StartPane.add(startButton);
+        printReport = new JButton("보고서 출력");
+        StartPane.add(printReport);
         SettingPane.add(StartPane);
 
         JPanel MessageArea = new JPanel();
         MessageArea.setBorder(BorderFactory.createTitledBorder("상황 메시지"));
-        MessageArea.add(Information);
+        MessageArea.add(information);
         SettingPane.add(MessageArea);
 
         getContentPane().add(SettingPane, BorderLayout.CENTER);
@@ -140,7 +138,7 @@ public class Main extends JFrame {
         matchesPanel.setLayout(new BorderLayout());
         JPanel soundPanel = new JPanel();
         soundPanel.add(new JLabel("음성 안내 : "));
-        soundPanel.add(Sound);
+        soundPanel.add(sound);
         matchesPanel.add(soundPanel, BorderLayout.NORTH);
         matchesPanel.add(new JScrollPane(table), BorderLayout.SOUTH);
 
@@ -155,29 +153,23 @@ public class Main extends JFrame {
                         System.exit(0);
                     }
                 });
-        StartButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                if (started == false) {
-                    new MySQL().MySqlSetting(Main.mySqlID.getText(), Main.mySqlPassword.getText(), Main.mySqlAddress.getText(), Integer.parseInt(Main.mySqlPort.getText()));
-                    //MySQL 설치 유무 체크
-                    if (new MySQL().MySqlInstallTest() == false || new MySQL().CreateDatabases() == false) {
-                        JOptionPane.showMessageDialog(Main.SWM, "MySQL이 설치되지 않았거나\nMySQL 접근 ID, Password 혹은\n연결 주소 및 포트 등의\n정보가 정확하지 않습니다!", "MySQL 동작 에러", JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
-                    Truck = new Object_Truck();
-                    new Function().ResearchStart();
-                } else {
-                    started = false;
-                    new MySQL().dataInsert();
+        startButton.addActionListener(e -> {
+            if (!started) {
+                MySQL.MySqlSetting(Main.mySqlId.getText(), Main.mySqlPassword.getText(), Main.mySqlAddress.getText(), Integer.parseInt(Main.mySqlPort.getText()));
+                //MySQL 설치 유무 체크
+                if (!MySQL.MySqlInstallTest() || !MySQL.createDatabases()) {
+                    JOptionPane.showMessageDialog(Main.SWM, "MySQL이 설치되지 않았거나\nMySQL 접근 ID, Password 혹은\n연결 주소 및 포트 등의\n정보가 정확하지 않습니다!", "MySQL 동작 에러", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
+                truck = new Object_Truck();
+                Function.startResearch();
+            } else {
+                started = false;
+                MySQL.dataInsert();
             }
         });
 
-        PrintReport.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                new PrintReportFrame();
-            }
-        });
+        printReport.addActionListener(actionEvent -> new PrintReportFrame());
     }
 
     //한 칸 띄워 쓰기 위한 빈 라벨 생성
@@ -218,8 +210,8 @@ public class Main extends JFrame {
 
     public static void main(String[] args) {
         Main crawler = new Main();
-        crawler.show();
-        mySqlID.setText("root");
+        crawler.setVisible(true);
+        mySqlId.setText("root");
         mySqlPassword.setText("");
         mySqlAddress.setText("localhost");
         mySqlPort.setText("3306");

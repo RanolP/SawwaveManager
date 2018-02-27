@@ -17,15 +17,16 @@ public class Thread_Network extends Thread {
         String url = null;
         try {
             url = "http://192.168.1.253:8080/cgi-bin/luci/admin/network/wireless/wifi0.network1?" + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode("admin", "UTF-8") + "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode("sawwave12#$", "UTF-8");
-        } catch (UnsupportedEncodingException e1) {
+        } catch (UnsupportedEncodingException exception) {
+            exception.printStackTrace();
         }
 
         while (true) {
-            if (Main.started == false) {
+            if (!Main.started) {
                 new Function().exit(null);
                 return;
             }
-            if (Main.Truck.isReady_Netwrok() == false) {
+            if (!Main.truck.isReadyNetwork()) {
                 String ResultText = null;
                 try {
                     WebClient webClient = new WebClient(BrowserVersion.CHROME);
@@ -50,10 +51,10 @@ public class Thread_Network extends Thread {
                         String Channel = ResultText.split("Antenna")[0].trim().split("\n")[4].trim();
                         String Tx_Power = ResultText.split("Antenna")[1].trim().split("\n")[5].trim();
 
-                        Main.Truck.setBandwidth(Bandwidth);
-                        Main.Truck.setChannel(Channel);
-                        Main.Truck.setTx_Power(Tx_Power);
-                        Main.Truck.setReady_Netwrok(true);
+                        Main.truck.setBandwidth(Bandwidth);
+                        Main.truck.setChannel(Channel);
+                        Main.truck.setTxPower(Tx_Power);
+                        Main.truck.setReadyNetwork(true);
 
                     } else
                         System.out.println("Network 못 구함");

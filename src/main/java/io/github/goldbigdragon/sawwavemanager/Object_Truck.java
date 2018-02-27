@@ -1,123 +1,125 @@
 package io.github.goldbigdragon.sawwavemanager;
 
+import javazoom.jl.decoder.JavaLayerException;
 import javazoom.jl.player.Player;
 
 import javax.swing.table.DefaultTableModel;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Object_Truck {
-    private String Type = null;
-    private String Tx_Power = null;
-    private String Bandwidth = null;
-    private String Channel = null;
-    private String RSSI = null;
-    private String Tx_Rate = null;
-    private String Rx_Rate = null;
-    private String CCQ = null;
-    private boolean Ready_OverView = false;
-    private boolean Ready_Netwrok = false;
+    private String type = null;
+    private String txPower = null;
+    private String bandwidth = null;
+    private String channel = null;
+    private String rssi = null;
+    private String txRate = null;
+    private String rxRate = null;
+    private String ccq = null;
+    private boolean readyOverview = false;
+    private boolean readyNetwork = false;
 
-    DefaultTableModel model = (DefaultTableModel) Main.table.getModel();
+    private DefaultTableModel model = (DefaultTableModel) Main.table.getModel();
 
     public String getType() {
-        return Type;
+        return type;
     }
 
-    public String getTx_Power() {
-        return Tx_Power;
+    public String getTxPower() {
+        return txPower;
     }
 
     public String getBandwidth() {
-        return Bandwidth;
+        return bandwidth;
     }
 
     public String getChannel() {
-        return Channel;
+        return channel;
     }
 
-    public String getRSSI() {
-        return RSSI;
+    public String getRssi() {
+        return rssi;
     }
 
-    public String getTx_Rate() {
-        return Tx_Rate;
+    public String getTxRate() {
+        return txRate;
     }
 
-    public String getRx_Rate() {
-        return Rx_Rate;
+    public String getRxRate() {
+        return rxRate;
     }
 
-    public String getCCQ() {
-        return CCQ;
+    public String getCcq() {
+        return ccq;
     }
 
-    public boolean isReady_OverView() {
-        return Ready_OverView;
+    public boolean isReadyOverview() {
+        return readyOverview;
     }
 
     public void setType(String type) {
-        Type = type;
+        this.type = type;
     }
 
-    public void setTx_Power(String tx_Power) {
-        Tx_Power = tx_Power;
+    public void setTxPower(String txPower) {
+        this.txPower = txPower;
     }
 
     public void setBandwidth(String bandwidth) {
-        Bandwidth = bandwidth;
+        this.bandwidth = bandwidth;
     }
 
     public void setChannel(String channel) {
-        Channel = channel;
+        this.channel = channel;
     }
 
-    public void setRSSI(String rSSI) {
-        RSSI = rSSI;
+    public void setRssi(String rSSI) {
+        rssi = rSSI;
     }
 
-    public void setTx_Rate(String tx_Rate) {
-        Tx_Rate = tx_Rate;
+    public void setTxRate(String txRate) {
+        this.txRate = txRate;
     }
 
-    public void setRx_Rate(String rx_Rate) {
-        Rx_Rate = rx_Rate;
+    public void setRxRate(String rxRate) {
+        this.rxRate = rxRate;
     }
 
-    public void setCCQ(String cCQ) {
-        CCQ = cCQ;
+    public void setCcq(String cCQ) {
+        ccq = cCQ;
     }
 
-    public void setReady_OverView(boolean ready_OverView) {
-        Ready_OverView = ready_OverView;
+    public void setReadyOverview(boolean readyOverview) {
+        this.readyOverview = readyOverview;
         isAllReady();
     }
 
-    public boolean isReady_Netwrok() {
-        return Ready_Netwrok;
+    public boolean isReadyNetwork() {
+        return readyNetwork;
     }
 
-    public void setReady_Netwrok(boolean ready_Netwrok) {
-        Ready_Netwrok = ready_Netwrok;
+    public void setReadyNetwork(boolean readyNetwork) {
+        this.readyNetwork = readyNetwork;
         isAllReady();
     }
 
     public synchronized void isAllReady() {
-        if (Ready_OverView && Ready_Netwrok) {
-            if (Main.Sound.isSelected()) {
+        if (readyOverview && readyNetwork) {
+            if (Main.sound.isSelected()) {
                 try {
-                    Player pl = new Player(new FileInputStream("sound\\" + CCQ.split("%")[0].trim() + ".mp3"));
+                    Player pl = new Player(new FileInputStream("sound\\" + ccq.split("%")[0].trim() + ".mp3"));
                     pl.play();
                     pl.close();
-                } catch (Exception ef) {
+                } catch (FileNotFoundException | JavaLayerException exception) {
                 }
             }
             notifyAll();
-            Ready_OverView = false;
-            Ready_Netwrok = false;
-            Main.BufferStore.add(new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()).toString() + "★" + Type + "★" + Main.Distance.getText() + "★" + Tx_Power + "★" + Bandwidth + "★" + Channel + "★" + RSSI + "★" + Tx_Rate + "★" + Rx_Rate + "★" + CCQ);
-            model.addRow(new Object[]{Function.count, RSSI, Tx_Rate, Rx_Rate, CCQ});
+            readyOverview = false;
+            readyNetwork = false;
+            Main.BufferStore.add(new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()) + "★" + type + "★" + Main.distance.getText() + "★" + txPower + "★" + bandwidth + "★" + channel + "★" + rssi + "★" + txRate + "★" + rxRate + "★" + ccq);
+            model.addRow(new Object[]{Function.count, rssi, txRate, rxRate, ccq});
             if (Main.BufferStore.size() >= 20)
                 new MySQL().dataInsert();
 

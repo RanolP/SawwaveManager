@@ -16,16 +16,17 @@ public class Thread_OverView extends Thread {
     public void run() {
         String url = null;
         try {
-            url = "http://" + Main.Web_IP_Client.getText() + "/cgi-bin/luci/?" + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(Main.Web_ID_Client.getText(), "UTF-8") + "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(Main.Web_PW_Client.getText(), "UTF-8");
-        } catch (UnsupportedEncodingException e1) {
+            url = "http://" + Main.webIpClient.getText() + "/cgi-bin/luci/?" + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(Main.webIdClient.getText(), "UTF-8") + "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(new String(Main.webPwClient.getPassword()), "UTF-8");
+        } catch (UnsupportedEncodingException exception) {
+            exception.printStackTrace();
         }
 
         while (true) {
-            if (Main.started == false) {
-                new Function().exit(null);
+            if (!Main.started) {
+                Function.exit(null);
                 return;
             }
-            if (Main.Truck.isReady_OverView() == false) {
+            if (!Main.truck.isReadyOverview()) {
                 String[] splitted = null;
                 try {
                     WebClient webClient = new WebClient(BrowserVersion.CHROME);
@@ -62,15 +63,16 @@ public class Thread_OverView extends Thread {
                         String Tx_Rate = ResultText.split("\t")[0];
                         String Rx_Rate = ResultText.split("\t")[1];
 
-                        Main.Truck.setType(Type);
-                        Main.Truck.setRSSI(RSSI);
-                        Main.Truck.setCCQ(CCQ);
-                        Main.Truck.setTx_Rate(Tx_Rate);
-                        Main.Truck.setRx_Rate(Rx_Rate);
-                        Main.Truck.setReady_OverView(true);
+                        Main.truck.setType(Type);
+                        Main.truck.setRssi(RSSI);
+                        Main.truck.setCcq(CCQ);
+                        Main.truck.setTxRate(Tx_Rate);
+                        Main.truck.setRxRate(Rx_Rate);
+                        Main.truck.setReadyOverview(true);
 
-                    } else
+                    } else {
                         System.out.println("OverView 못 구함");
+                    }
                 } else {
                     try {
                         sleep(1000);
