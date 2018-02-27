@@ -1,258 +1,227 @@
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+package io.github.goldbigdragon.sawwavemanager;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
-import javax.swing.BorderFactory;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
+public class Main extends JFrame {
+    private static final long serialVersionUID = 0001L;
 
-public class Main extends JFrame
-//JavaFrame±â´ÉÀ» »ó¼Ó ¹Ş´Â´Ù Çß±â¿¡, ÀÌÁ¦ºÎÅÍ GUI¸¦ ±¸¼ºÇÒ ¼ö ÀÖ°Ô µÈ´Ù!
-{
-	private static final long serialVersionUID = 0001L;
-	
-	public static JTextField PC_IP_Client = new JTextField("192.168.1.202");
-	public static JTextField PC_IP_Server = new JTextField("192.168.1.101");
-	public static JTextField Web_IP_Client = new JTextField("192.168.1.253:8080");
-	public static JTextField Web_IP_Server = new JTextField("192.168.1.254:8080");
-	public static JCheckBox Sound = new JCheckBox();
+    public static JTextField PC_IP_Client = new JTextField("192.168.1.202");
+    public static JTextField PC_IP_Server = new JTextField("192.168.1.101");
+    public static JTextField Web_IP_Client = new JTextField("192.168.1.253:8080");
+    public static JTextField Web_IP_Server = new JTextField("192.168.1.254:8080");
+    public static JCheckBox Sound = new JCheckBox();
 
-	public static JTextField Web_ID_Client = new JTextField("admin");
-	public static JPasswordField Web_PW_Client = new JPasswordField("sawwave12#$");
-	public static JTextField Web_ID_Server = new JTextField("admin");
-	public static JPasswordField Web_PW_Server = new JPasswordField("sawwave12#$");
-	
-	public static JTextField mySqlID = new JTextField("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡"); // MySQL À¯Àú ÀÌ¸§ ÀÔ·Â ÇÊµå
-	public static JPasswordField mySqlPassword = new JPasswordField("               ¡¡¡¡¡¡¡¡¡¡"); // MySQL À¯Àú ¾ÏÈ£ ÀÔ·Â ÇÊµå
-	public static JTextField mySqlAddress = new JTextField("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡"); // MySQL ÁÖ¼Ò ÀÔ·Â ÇÊµå
-	public static JTextField mySqlPort = new JTextField("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡"); // MySQL Æ÷Æ® ÀÔ·Â ÇÊµå
+    public static JTextField Web_ID_Client = new JTextField("admin");
+    public static JPasswordField Web_PW_Client = new JPasswordField("sawwave12#$");
+    public static JTextField Web_ID_Server = new JTextField("admin");
+    public static JPasswordField Web_PW_Server = new JPasswordField("sawwave12#$");
 
-	public static JTextField Distance = new JTextField("1.00");
-	public static JButton StartButton; // Start ¹öÆ°
-	public static JButton PrintReport; // PrintReport ¹öÆ°
+    public static JTextField mySqlID = new JTextField("ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€"); // MySQL ìœ ì € ì´ë¦„ ì…ë ¥ í•„ë“œ
+    public static JPasswordField mySqlPassword = new JPasswordField("               ã€€ã€€ã€€ã€€ã€€"); // MySQL ìœ ì € ì•”í˜¸ ì…ë ¥ í•„ë“œ
+    public static JTextField mySqlAddress = new JTextField("ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€"); // MySQL ì£¼ì†Œ ì…ë ¥ í•„ë“œ
+    public static JTextField mySqlPort = new JTextField("ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€"); // MySQL í¬íŠ¸ ì…ë ¥ í•„ë“œ
 
-	public static final String[] LogList = null;
-	
-	public static JTable table; //ÇöÀç »óÈ²À» ³ªÅ¸³»¾î ÁÙ °Í
-	
-	public static boolean started; //½ÃÀÛ º¯¼ö
-	
-	public static JFrame SWM;
-	public static JLabel Information = new JLabel("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¼³Á¤ ÀÌÈÄ, ½ÃÀÛ ¹öÆ°À» Å¬¸¯ ÇØ ÁÖ¼¼¿ä.¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡"); // ÇöÀç »óÅÂ¸¦ ³ªÅ¸³»´Â ¹Ù.
+    public static JTextField Distance = new JTextField("1.00");
+    public static JButton StartButton; // Start ë²„íŠ¼
+    public static JButton PrintReport; // PrintReport ë²„íŠ¼
 
-	public static Object_Truck Truck = null;
-	
-	public static ArrayList<String> BufferStore = new ArrayList<String>();
-	
-	//SawWave Manager GUIÆÇÀ» ¸¸µé¾î ÁÖ´Â ¸Ş¼Òµå
-	public Main()
-	{
-		SWM = this;
-		setTitle("SawWaveManager");
-		setSize(550, 850);
-		setBackground(new Color(255, 185, 0));
-		setVisible(true);
-		
-		//GUI È­¸é¿¡ ÄÄÆ÷³ÍÆ® ¹èÄ¡
-		setComponent();
-		//°¢Á¾ ¾×¼Ç ÀÌº¥Æ®¸¦ Ãß°¡½ÃÅ°´Â ¸Ş¼Òµå
-		setAction();
-	}
-	
-	public void setComponent()
-	{
-		getContentPane().setLayout(new BorderLayout());
-		JPanel SettingPane = new JPanel();
-		
-		JPanel SqlPanel = new JPanel();
-		GridBagConstraints constraints = null;
-		GridBagLayout layout = new GridBagLayout();
-		SqlPanel.setBorder(BorderFactory.createTitledBorder("MySQL"));
-		SqlPanel.setLayout(layout);
-		SqlPanel.add(new JLabel("SQL ID : "));
-		SqlPanel.add(mySqlID);
-		SqlPanel.add(new JLabel("¡¡SQL PW : "));
-		SqlPanel.add(mySqlPassword);
-		putBlankLabel(constraints, layout, SqlPanel);
-		SqlPanel.add(new JLabel("SQL Address : "));
-		SqlPanel.add(mySqlAddress);
-		SqlPanel.add(new JLabel("¡¡SQL Port :"));
-		SqlPanel.add(mySqlPort);
+    public static final String[] LogList = null;
 
-		JPanel DistancePane = new JPanel();
-		DistancePane.setBorder(BorderFactory.createTitledBorder("°Å¸®"));
-		DistancePane.setLayout(layout);
-		DistancePane.add(new JLabel("°Å¸® : "));
-		DistancePane.add(Distance);
-		DistancePane.add(new JLabel("Km"));
-		
-		JPanel ServerSide = new JPanel();
-		ServerSide.setBorder(BorderFactory.createTitledBorder("Server Ãø"));
-		ServerSide.setLayout(new GridBagLayout());
-		ServerSide.add(new JLabel("¡¡PC-IP : "));
-		ServerSide.add(PC_IP_Server);
-		ServerSide.add(new JLabel("¡¡WEB-IP : "));
-		ServerSide.add(Web_IP_Server);
-		ServerSide.add(new JLabel("¡¡ID : "));
-		ServerSide.add(Web_ID_Server);
-		ServerSide.add(new JLabel("¡¡PW : "));
-		ServerSide.add(Web_PW_Server);
+    public static JTable table; //í˜„ì¬ ìƒí™©ì„ ë‚˜íƒ€ë‚´ì–´ ì¤„ ê²ƒ
 
-		JPanel ClientSide = new JPanel();
-		ClientSide.setBorder(BorderFactory.createTitledBorder("Clinet Ãø"));
-		ClientSide.setLayout(new GridBagLayout());
-		ClientSide.add(new JLabel("¡¡PC-IP : "));
-		ClientSide.add(PC_IP_Client);
-		ClientSide.add(new JLabel("¡¡WEB-IP : "));
-		ClientSide.add(Web_IP_Client);
-		ClientSide.add(new JLabel("¡¡ID : "));
-		ClientSide.add(Web_ID_Client);
-		ClientSide.add(new JLabel("¡¡PW : "));
-		ClientSide.add(Web_PW_Client);
+    public static boolean started; //ì‹œì‘ ë³€ìˆ˜
 
-		SettingPane.add(SqlPanel);
-		SettingPane.add(DistancePane);
-		SettingPane.add(ServerSide);
-		SettingPane.add(ClientSide);
+    public static JFrame SWM;
+    public static JLabel Information = new JLabel("ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ì„¤ì • ì´í›„, ì‹œì‘ ë²„íŠ¼ì„ í´ë¦­ í•´ ì£¼ì„¸ìš”.ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€"); // í˜„ì¬ ìƒíƒœë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë°”.
 
-		JPanel StartPane = new JPanel();
-		StartButton = new JButton("                                         ½ÃÀÛ                                         ");
-		StartPane.add(StartButton);
-		PrintReport = new JButton("º¸°í¼­ Ãâ·Â");
-		StartPane.add(PrintReport);
-		SettingPane.add(StartPane);
-		
-		JPanel MessageArea = new JPanel();
-		MessageArea.setBorder(BorderFactory.createTitledBorder("»óÈ² ¸Ş½ÃÁö"));
-		MessageArea.add(Information);
-		SettingPane.add(MessageArea);
-		
-		getContentPane().add(SettingPane, BorderLayout.CENTER);
-		
-		
-		table = new JTable(new DefaultTableModel(new Object[][] {},
-				new String[] { "È¸Â÷", "Signal", "Tx Rate", "Rx Rate", "TX-CCQ" }) {
-			public boolean isCellEditable(int row, int column) {
-				return false;
-			}
-		});
-		JPanel matchesPanel = new JPanel();
-		matchesPanel.setBorder(BorderFactory.createTitledBorder("ÃøÁ¤ °á°ú"));
-		matchesPanel.setLayout(new BorderLayout());
-		JPanel soundPanel = new JPanel();
-		soundPanel.add(new JLabel("À½¼º ¾È³» : "));
-		soundPanel.add(Sound);
-		matchesPanel.add(soundPanel, BorderLayout.NORTH);
-		matchesPanel.add(new JScrollPane(table), BorderLayout.SOUTH);
-		
-		getContentPane().add(matchesPanel, BorderLayout.SOUTH);
-	}
-	
-	public void setAction()
-	{
-		//X¹öÆ°À» ´©¸£¸é »ç¶óÁöµµ·Ï ÇÏ´Â ¼³Á¤
-		addWindowListener(
-		new WindowAdapter()
-		{
-			public void windowClosing(WindowEvent e)
-			{
-				System.exit(0);
-			}
-		});
-		StartButton.addActionListener(new ActionListener() {
-			public
-			void actionPerformed(ActionEvent e)
-			{
-				if(started==false)
-				{
-					new MySQL().MySqlSetting(Main.mySqlID.getText(), Main.mySqlPassword.getText(), Main.mySqlAddress.getText(), Integer.parseInt(Main.mySqlPort.getText()));
-					//MySQL ¼³Ä¡ À¯¹« Ã¼Å©
-					if(new MySQL().MySqlInstallTest()==false || new MySQL().CreateDatabases()==false)
-					{
-						JOptionPane.showMessageDialog(Main.SWM, "MySQLÀÌ ¼³Ä¡µÇÁö ¾Ê¾Ò°Å³ª\nMySQL Á¢±Ù ID, Password È¤Àº\n¿¬°á ÁÖ¼Ò ¹× Æ÷Æ® µîÀÇ\nÁ¤º¸°¡ Á¤È®ÇÏÁö ¾Ê½À´Ï´Ù!", "MySQL µ¿ÀÛ ¿¡·¯", JOptionPane.ERROR_MESSAGE);
-						return;
-					}
-					Truck = new Object_Truck();
-					new Function().ResearchStart();
-				}
-				else
-				{
-					started = false;
-					new MySQL().dataInsert();
-				}
-			}
-		});
+    public static Object_Truck Truck = null;
 
-		 PrintReport.addActionListener(new ActionListener() {
-	            public void actionPerformed(ActionEvent arg0) {
-	                new PrintReportFrame();
-	            }
-	        });
-	}
+    public static ArrayList<String> BufferStore = new ArrayList<String>();
 
-	//ÇÑ Ä­ ¶ç¿ö ¾²±â À§ÇÑ ºó ¶óº§ »ı¼º
-	public void putBlankLabel(GridBagConstraints constraints, GridBagLayout layout, JPanel searchPanel)
-	{
-		JLabel blankLabel = new JLabel();
-		constraints = new GridBagConstraints();
-		constraints.gridwidth = GridBagConstraints.REMAINDER;
-		layout.setConstraints(blankLabel, constraints);
-		searchPanel.add(blankLabel);
-	}
-	
-	//ºÙ¿©¾ß ÇÒ ¶óº§ÀÌ ¸¹¾Æ¼­ ÇÊÀÚ°¡ ¸¸µç ¶óº§ »ı¼º ¸Ş¼Òµå
-	public void putLabel(String LabelName, GridBagConstraints constraints, GridBagLayout layout, JPanel searchPanel, int insetsTop,  int insetsLeft, int insetsBottom, int insetsRight, int sort)
-	{
-		JLabel startLabel = new JLabel(LabelName);
-		constraints = new GridBagConstraints();
-		constraints.insets = new Insets(insetsTop, insetsLeft, insetsBottom, insetsRight);
-		//À§Ä¡ ¼³Á¤. (À§,¿ŞÂÊ,¾Æ·¡,¿À¸¥ÂÊ¿¡ ´ëÇÑ ÇÈ¼¿ ¶ç¿ì±â ¼³Á¤.)
-		constraints.anchor = GridBagConstraints.EAST;
-		//À§Ä¡ ¼³Á¤ ÀÌÈÄ ¿ìÃø Á¤·Ä ¼³Á¤
-		layout.setConstraints(startLabel, constraints);
-		//·¹ÀÌ¾Æ¿ô¿¡ ¶óº§(startLabel)À» À§¿¡¼­ ¼³Á¤ÇÑ À§Ä¡(constraints)¿¡ ºÙÀÎ´Ù.
-		searchPanel.add(startLabel);
-		//ÆĞ³Î¿¡ ¶óº§(startLabelÀ» ºÙÀÎ´Ù.
-	}
+    //SawWave Manager GUIíŒì„ ë§Œë“¤ì–´ ì£¼ëŠ” ë©”ì†Œë“œ
+    public Main() {
+        SWM = this;
+        setTitle("SawWaveManager");
+        setSize(550, 850);
+        setBackground(new Color(255, 185, 0));
+        setVisible(true);
 
-	//ºÙ¿©¾ß ÇÒ ÄÄÆ÷³ÍÆ®°¡ ¸¹¾Æ¼­ ÇÊÀÚ°¡ ¸¸µç ÄÄÆ÷³ÍÆ® »ı¼º ¸Ş¼Òµå
-	public void putComponent(GridBagConstraints constraints, Component component, GridBagLayout layout, JPanel searchPanel, int insetsTop,  int insetsLeft, int insetsBottom, int insetsRight, int sort)
-	{
-		constraints = new GridBagConstraints();
-		constraints.insets = new Insets(insetsTop, insetsLeft, insetsBottom, insetsRight);
-		//À§Ä¡ ¼³Á¤. (À§,¿ŞÂÊ,¾Æ·¡,¿À¸¥ÂÊ¿¡ ´ëÇÑ ÇÈ¼¿ ¶ç¿ì±â ¼³Á¤.)
-		constraints.anchor = GridBagConstraints.EAST;
-		//À§Ä¡ ¼³Á¤ ÀÌÈÄ ¿ìÃø Á¤·Ä
-		layout.setConstraints(component, constraints);
-		//·¹ÀÌ¾Æ¿ô¿¡ ¶óº§(startLabel)À» À§¿¡¼­ ¼³Á¤ÇÑ À§Ä¡(constraints)¿¡ ºÙÀÎ´Ù.
-		searchPanel.add(component);
-		//ÆĞ³Î¿¡ ¶óº§(startLabelÀ» ºÙÀÎ´Ù.
-	}
-	
-	public static void main(String[] args)
-	{
-		Main crawler = new Main();
-		crawler.show();
-		mySqlID.setText("root");
-		mySqlPassword.setText("");
-		mySqlAddress.setText("localhost");
-		mySqlPort.setText("3306");
-	}
+        //GUI í™”ë©´ì— ì»´í¬ë„ŒíŠ¸ ë°°ì¹˜
+        setComponent();
+        //ê°ì¢… ì•¡ì…˜ ì´ë²¤íŠ¸ë¥¼ ì¶”ê°€ì‹œí‚¤ëŠ” ë©”ì†Œë“œ
+        setAction();
+    }
+
+    public void setComponent() {
+        getContentPane().setLayout(new BorderLayout());
+        JPanel SettingPane = new JPanel();
+
+        JPanel SqlPanel = new JPanel();
+        GridBagConstraints constraints = null;
+        GridBagLayout layout = new GridBagLayout();
+        SqlPanel.setBorder(BorderFactory.createTitledBorder("MySQL"));
+        SqlPanel.setLayout(layout);
+        SqlPanel.add(new JLabel("SQL ID : "));
+        SqlPanel.add(mySqlID);
+        SqlPanel.add(new JLabel("ã€€SQL PW : "));
+        SqlPanel.add(mySqlPassword);
+        putBlankLabel(constraints, layout, SqlPanel);
+        SqlPanel.add(new JLabel("SQL Address : "));
+        SqlPanel.add(mySqlAddress);
+        SqlPanel.add(new JLabel("ã€€SQL Port :"));
+        SqlPanel.add(mySqlPort);
+
+        JPanel DistancePane = new JPanel();
+        DistancePane.setBorder(BorderFactory.createTitledBorder("ê±°ë¦¬"));
+        DistancePane.setLayout(layout);
+        DistancePane.add(new JLabel("ê±°ë¦¬ : "));
+        DistancePane.add(Distance);
+        DistancePane.add(new JLabel("Km"));
+
+        JPanel ServerSide = new JPanel();
+        ServerSide.setBorder(BorderFactory.createTitledBorder("Server ì¸¡"));
+        ServerSide.setLayout(new GridBagLayout());
+        ServerSide.add(new JLabel("ã€€PC-IP : "));
+        ServerSide.add(PC_IP_Server);
+        ServerSide.add(new JLabel("ã€€WEB-IP : "));
+        ServerSide.add(Web_IP_Server);
+        ServerSide.add(new JLabel("ã€€ID : "));
+        ServerSide.add(Web_ID_Server);
+        ServerSide.add(new JLabel("ã€€PW : "));
+        ServerSide.add(Web_PW_Server);
+
+        JPanel ClientSide = new JPanel();
+        ClientSide.setBorder(BorderFactory.createTitledBorder("Clinet ì¸¡"));
+        ClientSide.setLayout(new GridBagLayout());
+        ClientSide.add(new JLabel("ã€€PC-IP : "));
+        ClientSide.add(PC_IP_Client);
+        ClientSide.add(new JLabel("ã€€WEB-IP : "));
+        ClientSide.add(Web_IP_Client);
+        ClientSide.add(new JLabel("ã€€ID : "));
+        ClientSide.add(Web_ID_Client);
+        ClientSide.add(new JLabel("ã€€PW : "));
+        ClientSide.add(Web_PW_Client);
+
+        SettingPane.add(SqlPanel);
+        SettingPane.add(DistancePane);
+        SettingPane.add(ServerSide);
+        SettingPane.add(ClientSide);
+
+        JPanel StartPane = new JPanel();
+        StartButton = new JButton("                                         ì‹œì‘                                         ");
+        StartPane.add(StartButton);
+        PrintReport = new JButton("ë³´ê³ ì„œ ì¶œë ¥");
+        StartPane.add(PrintReport);
+        SettingPane.add(StartPane);
+
+        JPanel MessageArea = new JPanel();
+        MessageArea.setBorder(BorderFactory.createTitledBorder("ìƒí™© ë©”ì‹œì§€"));
+        MessageArea.add(Information);
+        SettingPane.add(MessageArea);
+
+        getContentPane().add(SettingPane, BorderLayout.CENTER);
+
+
+        table = new JTable(new DefaultTableModel(new Object[][]{},
+                new String[]{"íšŒì°¨", "Signal", "Tx Rate", "Rx Rate", "TX-CCQ"}) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        });
+        JPanel matchesPanel = new JPanel();
+        matchesPanel.setBorder(BorderFactory.createTitledBorder("ì¸¡ì • ê²°ê³¼"));
+        matchesPanel.setLayout(new BorderLayout());
+        JPanel soundPanel = new JPanel();
+        soundPanel.add(new JLabel("ìŒì„± ì•ˆë‚´ : "));
+        soundPanel.add(Sound);
+        matchesPanel.add(soundPanel, BorderLayout.NORTH);
+        matchesPanel.add(new JScrollPane(table), BorderLayout.SOUTH);
+
+        getContentPane().add(matchesPanel, BorderLayout.SOUTH);
+    }
+
+    public void setAction() {
+        //Xë²„íŠ¼ì„ ëˆ„ë¥´ë©´ ì‚¬ë¼ì§€ë„ë¡ í•˜ëŠ” ì„¤ì •
+        addWindowListener(
+                new WindowAdapter() {
+                    public void windowClosing(WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+        StartButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if (started == false) {
+                    new MySQL().MySqlSetting(Main.mySqlID.getText(), Main.mySqlPassword.getText(), Main.mySqlAddress.getText(), Integer.parseInt(Main.mySqlPort.getText()));
+                    //MySQL ì„¤ì¹˜ ìœ ë¬´ ì²´í¬
+                    if (new MySQL().MySqlInstallTest() == false || new MySQL().CreateDatabases() == false) {
+                        JOptionPane.showMessageDialog(Main.SWM, "MySQLì´ ì„¤ì¹˜ë˜ì§€ ì•Šì•˜ê±°ë‚˜\nMySQL ì ‘ê·¼ ID, Password í˜¹ì€\nì—°ê²° ì£¼ì†Œ ë° í¬íŠ¸ ë“±ì˜\nì •ë³´ê°€ ì •í™•í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤!", "MySQL ë™ì‘ ì—ëŸ¬", JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
+                    Truck = new Object_Truck();
+                    new Function().ResearchStart();
+                } else {
+                    started = false;
+                    new MySQL().dataInsert();
+                }
+            }
+        });
+
+        PrintReport.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent arg0) {
+                new PrintReportFrame();
+            }
+        });
+    }
+
+    //í•œ ì¹¸ ë„ì›Œ ì“°ê¸° ìœ„í•œ ë¹ˆ ë¼ë²¨ ìƒì„±
+    public void putBlankLabel(GridBagConstraints constraints, GridBagLayout layout, JPanel searchPanel) {
+        JLabel blankLabel = new JLabel();
+        constraints = new GridBagConstraints();
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
+        layout.setConstraints(blankLabel, constraints);
+        searchPanel.add(blankLabel);
+    }
+
+    //ë¶™ì—¬ì•¼ í•  ë¼ë²¨ì´ ë§ì•„ì„œ í•„ìê°€ ë§Œë“  ë¼ë²¨ ìƒì„± ë©”ì†Œë“œ
+    public void putLabel(String LabelName, GridBagConstraints constraints, GridBagLayout layout, JPanel searchPanel, int insetsTop, int insetsLeft, int insetsBottom, int insetsRight, int sort) {
+        JLabel startLabel = new JLabel(LabelName);
+        constraints = new GridBagConstraints();
+        constraints.insets = new Insets(insetsTop, insetsLeft, insetsBottom, insetsRight);
+        //ìœ„ì¹˜ ì„¤ì •. (ìœ„,ì™¼ìª½,ì•„ë˜,ì˜¤ë¥¸ìª½ì— ëŒ€í•œ í”½ì…€ ë„ìš°ê¸° ì„¤ì •.)
+        constraints.anchor = GridBagConstraints.EAST;
+        //ìœ„ì¹˜ ì„¤ì • ì´í›„ ìš°ì¸¡ ì •ë ¬ ì„¤ì •
+        layout.setConstraints(startLabel, constraints);
+        //ë ˆì´ì•„ì›ƒì— ë¼ë²¨(startLabel)ì„ ìœ„ì—ì„œ ì„¤ì •í•œ ìœ„ì¹˜(constraints)ì— ë¶™ì¸ë‹¤.
+        searchPanel.add(startLabel);
+        //íŒ¨ë„ì— ë¼ë²¨(startLabelì„ ë¶™ì¸ë‹¤.
+    }
+
+    //ë¶™ì—¬ì•¼ í•  ì»´í¬ë„ŒíŠ¸ê°€ ë§ì•„ì„œ í•„ìê°€ ë§Œë“  ì»´í¬ë„ŒíŠ¸ ìƒì„± ë©”ì†Œë“œ
+    public void putComponent(GridBagConstraints constraints, Component component, GridBagLayout layout, JPanel searchPanel, int insetsTop, int insetsLeft, int insetsBottom, int insetsRight, int sort) {
+        constraints = new GridBagConstraints();
+        constraints.insets = new Insets(insetsTop, insetsLeft, insetsBottom, insetsRight);
+        //ìœ„ì¹˜ ì„¤ì •. (ìœ„,ì™¼ìª½,ì•„ë˜,ì˜¤ë¥¸ìª½ì— ëŒ€í•œ í”½ì…€ ë„ìš°ê¸° ì„¤ì •.)
+        constraints.anchor = GridBagConstraints.EAST;
+        //ìœ„ì¹˜ ì„¤ì • ì´í›„ ìš°ì¸¡ ì •ë ¬
+        layout.setConstraints(component, constraints);
+        //ë ˆì´ì•„ì›ƒì— ë¼ë²¨(startLabel)ì„ ìœ„ì—ì„œ ì„¤ì •í•œ ìœ„ì¹˜(constraints)ì— ë¶™ì¸ë‹¤.
+        searchPanel.add(component);
+        //íŒ¨ë„ì— ë¼ë²¨(startLabelì„ ë¶™ì¸ë‹¤.
+    }
+
+    public static void main(String[] args) {
+        Main crawler = new Main();
+        crawler.show();
+        mySqlID.setText("root");
+        mySqlPassword.setText("");
+        mySqlAddress.setText("localhost");
+        mySqlPort.setText("3306");
+    }
 }

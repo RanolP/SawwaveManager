@@ -1,114 +1,102 @@
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
+package io.github.goldbigdragon.sawwavemanager;
+
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JSplitPane;
-import javax.swing.JTextField;
+public class PrintReportFrame extends JFrame {
+    private static final long serialVersionUID = 1L;
 
-public class PrintReportFrame extends JFrame
-{
-	private static final long serialVersionUID = 1L;
-	
-	private JSplitPane JSP = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, null, null);
-	public static JTextField TableName = new JTextField("                                             ");
-	public JButton FreshData = new JButton("√÷Ω≈ ¿⁄∑·");
-	public JButton AllValuePrint = new JButton("ªÛºº∞™ √‚∑¬");
-	public JButton AverageValuePrint = new JButton("∞¢ ∆Ú±’∞™ √‚∑¬");
-	public JButton MaxValuePrint = new JButton("∞¢ √÷¥Î∞™ √‚∑¬");
-	public JButton MinValuePrint = new JButton("∞¢ √÷º“∞™ √‚∑¬");
-	public JButton MaxValue_CCQ_Print = new JButton("CCQ √÷¥Î∞™ √‚∑¬");
-	public JButton MinValue_CCQ_Print = new JButton("CCQ √÷º“∞™ √‚∑¬");
-	
+    private JSplitPane JSP = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, null, null);
+    public static JTextField TableName = new JTextField("                                             ");
+    public JButton FreshData = new JButton("ÏµúÏã† ÏûêÎ£å");
+    public JButton AllValuePrint = new JButton("ÏÉÅÏÑ∏Í∞í Ï∂úÎ†•");
+    public JButton AverageValuePrint = new JButton("Í∞Å ÌèâÍ∑†Í∞í Ï∂úÎ†•");
+    public JButton MaxValuePrint = new JButton("Í∞Å ÏµúÎåÄÍ∞í Ï∂úÎ†•");
+    public JButton MinValuePrint = new JButton("Í∞Å ÏµúÏÜåÍ∞í Ï∂úÎ†•");
+    public JButton MaxValue_CCQ_Print = new JButton("CCQ ÏµúÎåÄÍ∞í Ï∂úÎ†•");
+    public JButton MinValue_CCQ_Print = new JButton("CCQ ÏµúÏÜåÍ∞í Ï∂úÎ†•");
 
-	public static JFrame PrintReportFrame;
-	
-	public void putBlankLabel(GridBagConstraints constraints, GridBagLayout layout, JPanel searchPanel)
-	{
-		JLabel blankLabel = new JLabel();
-		constraints = new GridBagConstraints();
-		constraints.gridwidth = GridBagConstraints.REMAINDER;
-		layout.setConstraints(blankLabel, constraints);
-		searchPanel.add(blankLabel);
-		
-	}
-	
-	public PrintReportFrame()
-	{
-		PrintReportFrame = this;
-        setTitle("∫∏∞Ìº≠ √‚∑¬");
+
+    public static JFrame PrintReportFrame;
+
+    public void putBlankLabel(GridBagConstraints constraints, GridBagLayout layout, JPanel searchPanel) {
+        JLabel blankLabel = new JLabel();
+        constraints = new GridBagConstraints();
+        constraints.gridwidth = GridBagConstraints.REMAINDER;
+        layout.setConstraints(blankLabel, constraints);
+        searchPanel.add(blankLabel);
+
+    }
+
+    public PrintReportFrame() {
+        PrintReportFrame = this;
+        setTitle("Î≥¥Í≥†ÏÑú Ï∂úÎ†•");
         setSize(550, 180);
         setLocation(0, 120);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         init();
         setting();
-		setVisible(true);
+        setVisible(true);
     }
-	
-	public void init()
-	{
-		FlowLayout fl = new FlowLayout();
-		this.setLayout(fl);
 
-		this.add(new JLabel("√‚∑¬«“ ≈◊¿Ã∫Ì ∏Ì : "));
-		this.add(TableName);
-		this.add(FreshData);
-		JPanel ButtonPanel = new JPanel();
-		ButtonPanel.add(AllValuePrint);
-		ButtonPanel.add(AverageValuePrint);
-		ButtonPanel.add(MaxValuePrint);
-		ButtonPanel.add(MinValuePrint);
-		JPanel ButtonPanel2 = new JPanel();
-		ButtonPanel2.add(MaxValue_CCQ_Print);
-		ButtonPanel2.add(MinValue_CCQ_Print);
-		
-		
-		this.add(ButtonPanel);
-		this.add(ButtonPanel2);
-	}
-	
-	public void setting()
-	{
-		FreshData.addActionListener(new ActionListener() {
+    public void init() {
+        FlowLayout fl = new FlowLayout();
+        this.setLayout(fl);
+
+        this.add(new JLabel("Ï∂úÎ†•Ìï† ÌÖåÏù¥Î∏î Î™Ö : "));
+        this.add(TableName);
+        this.add(FreshData);
+        JPanel ButtonPanel = new JPanel();
+        ButtonPanel.add(AllValuePrint);
+        ButtonPanel.add(AverageValuePrint);
+        ButtonPanel.add(MaxValuePrint);
+        ButtonPanel.add(MinValuePrint);
+        JPanel ButtonPanel2 = new JPanel();
+        ButtonPanel2.add(MaxValue_CCQ_Print);
+        ButtonPanel2.add(MinValue_CCQ_Print);
+
+
+        this.add(ButtonPanel);
+        this.add(ButtonPanel2);
+    }
+
+    public void setting() {
+        FreshData.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 new MySQL().catchFreshData();
             }
         });
-		AllValuePrint.addActionListener(new ActionListener() {
+        AllValuePrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 new MySQL().exportData(0, TableName.getText());
             }
         });
-		AverageValuePrint.addActionListener(new ActionListener() {
+        AverageValuePrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 new MySQL().exportData(1, TableName.getText());
             }
         });
-		MaxValuePrint.addActionListener(new ActionListener() {
+        MaxValuePrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 new MySQL().exportData(2, TableName.getText());
             }
         });
-		MinValuePrint.addActionListener(new ActionListener() {
+        MinValuePrint.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 new MySQL().exportData(3, TableName.getText());
             }
         });
-		MaxValue_CCQ_Print.addActionListener(new ActionListener() {
+        MaxValue_CCQ_Print.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 new MySQL().exportData(4, TableName.getText());
             }
         });
-		MinValue_CCQ_Print.addActionListener(new ActionListener() {
+        MinValue_CCQ_Print.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 new MySQL().exportData(5, TableName.getText());
             }
         });
-	}
+    }
 }

@@ -1,84 +1,79 @@
+package io.github.goldbigdragon.sawwavemanager;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Function extends Thread
-{
-	public static long count = 1;
-	public static String StartTime = null;
-	
-	public void ResearchStart()
-	{
-		//°Ë»ö µµÁß¿¡ »ç¿ëÀÚ°¡ ¿É¼ÇÀ» º¯°æÇÏÁö ¸øÇÏµµ·Ï ºñÈ°¼ºÈ­ ½ÃÅ´.
-		Main.mySqlID.setEnabled(false);
-		Main.mySqlPassword.setEnabled(false);
-		Main.mySqlAddress.setEnabled(false);
-		Main.mySqlPort.setEnabled(false);
-		Main.PC_IP_Client.setEnabled(false);
-		Main.PC_IP_Server.setEnabled(false);
-		Main.Web_IP_Client.setEnabled(false);
-		Main.Web_IP_Server.setEnabled(false);
-		Main.Web_ID_Client.setEnabled(false);
-		Main.Web_ID_Server.setEnabled(false);
-		Main.Web_PW_Client.setEnabled(false);
-		Main.Web_PW_Server.setEnabled(false);
-		Main.Distance.setEnabled(false);
+public class Function extends Thread {
+    public static long count = 1;
+    public static String StartTime = null;
 
-		//°Ë»ö µµÁß¿¡ »ç¿ëÀÚ°¡ °Ë»öÀ» Áß´Ü ½ÃÅ³ ¼ö ÀÖµµ·Ï [°Ë»ö]À» [ÁßÁö]·Î º¯°æ
-		Main.StartButton.setText("                                         ÁßÁö                                         ");
-		Main.Information.setText("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡»çÀÌÆ® Á¢¼Ó ¿©ºÎ È®ÀÎ Áß...¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡");
+    public void ResearchStart() {
+        //ê²€ìƒ‰ ë„ì¤‘ì— ì‚¬ìš©ìê°€ ì˜µì…˜ì„ ë³€ê²½í•˜ì§€ ëª»í•˜ë„ë¡ ë¹„í™œì„±í™” ì‹œí‚´.
+        Main.mySqlID.setEnabled(false);
+        Main.mySqlPassword.setEnabled(false);
+        Main.mySqlAddress.setEnabled(false);
+        Main.mySqlPort.setEnabled(false);
+        Main.PC_IP_Client.setEnabled(false);
+        Main.PC_IP_Server.setEnabled(false);
+        Main.Web_IP_Client.setEnabled(false);
+        Main.Web_IP_Server.setEnabled(false);
+        Main.Web_ID_Client.setEnabled(false);
+        Main.Web_ID_Server.setEnabled(false);
+        Main.Web_PW_Client.setEnabled(false);
+        Main.Web_PW_Server.setEnabled(false);
+        Main.Distance.setEnabled(false);
 
-		//°Ë»ö ½ÃÀÛ
-		Main.started = true;
-		
-		Main.Information.setText("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡ÀÚ·á ¼öÁı Áß...¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡");
+        //ê²€ìƒ‰ ë„ì¤‘ì— ì‚¬ìš©ìê°€ ê²€ìƒ‰ì„ ì¤‘ë‹¨ ì‹œí‚¬ ìˆ˜ ìˆë„ë¡ [ê²€ìƒ‰]ì„ [ì¤‘ì§€]ë¡œ ë³€ê²½
+        Main.StartButton.setText("                                         ì¤‘ì§€                                         ");
+        Main.Information.setText("ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ì‚¬ì´íŠ¸ ì ‘ì† ì—¬ë¶€ í™•ì¸ ì¤‘...ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€");
 
-		StartTime = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()).toString();
-		//¾²·¹µå¸¦ »ç¿ëÇÏ¿© °Ë»öÇÕ´Ï´Ù.
-		Thread thread1 = new Thread_OverView();
-		Thread thread2 = new Thread_Network();
-		thread1.start();
-		thread2.start();
-	}
-	
-	public boolean isPingWell()
-	{
-		try
-		{
-			return InetAddress.getByName(Main.PC_IP_Server.getText()).isReachable(2000);
-		}
-		catch (IOException e)
-		{
-			return false;
-		}
-	}
-	
-	
-	public void exit(String Message)
-	{
-		
-		//[°Ë»ö Áß] ¶óº§¿¡ °Ë»öÀÌ ¿Ï·áµÇ¾ú´Ù°í ¾Ë¸²
-		if(Message == null)
-			Main.Information.setText("¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¼³Á¤ ÀÌÈÄ, ½ÃÀÛ ¹öÆ°À» Å¬¸¯ ÇØ ÁÖ¼¼¿ä.¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡¡");
-		else
-			Main.Information.setText(Message);
-			
-		//°Ë»ö ¿Ï·á ÀÌÈÄ, ´Ù½Ã »ç¿ëÀÚ°¡ ¼³Á¤À» ÇÒ ¼ö ÀÖµµ·Ï ¿É¼Ç È°¼ºÈ­
-		Main.mySqlID.setEnabled(true);
-		Main.mySqlPassword.setEnabled(true);
-		Main.mySqlAddress.setEnabled(true);
-		Main.mySqlPort.setEnabled(true);
-		Main.PC_IP_Client.setEnabled(true);
-		Main.PC_IP_Server.setEnabled(true);
-		Main.Web_IP_Client.setEnabled(true);
-		Main.Web_IP_Server.setEnabled(true);
-		Main.Web_ID_Client.setEnabled(true);
-		Main.Web_ID_Server.setEnabled(true);
-		Main.Web_PW_Client.setEnabled(true);
-		Main.Web_PW_Server.setEnabled(true);
-		Main.Distance.setEnabled(true);
-		//°Ë»ö ¿Ï·á ÀÌÈÄ, [ÁßÁö]¹öÆ°À» ´Ù½Ã [°Ë»ö]À¸·Î º¯°æ
-		Main.StartButton.setText("                                         ½ÃÀÛ                                         ");
-	}
+        //ê²€ìƒ‰ ì‹œì‘
+        Main.started = true;
+
+        Main.Information.setText("ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ìë£Œ ìˆ˜ì§‘ ì¤‘...ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€");
+
+        StartTime = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()).toString();
+        //ì“°ë ˆë“œë¥¼ ì‚¬ìš©í•˜ì—¬ ê²€ìƒ‰í•©ë‹ˆë‹¤.
+        Thread thread1 = new Thread_OverView();
+        Thread thread2 = new Thread_Network();
+        thread1.start();
+        thread2.start();
+    }
+
+    public boolean isPingWell() {
+        try {
+            return InetAddress.getByName(Main.PC_IP_Server.getText()).isReachable(2000);
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+
+    public void exit(String Message) {
+
+        //[ê²€ìƒ‰ ì¤‘] ë¼ë²¨ì— ê²€ìƒ‰ì´ ì™„ë£Œë˜ì—ˆë‹¤ê³  ì•Œë¦¼
+        if (Message == null)
+            Main.Information.setText("ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ì„¤ì • ì´í›„, ì‹œì‘ ë²„íŠ¼ì„ í´ë¦­ í•´ ì£¼ì„¸ìš”.ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€ã€€");
+        else
+            Main.Information.setText(Message);
+
+        //ê²€ìƒ‰ ì™„ë£Œ ì´í›„, ë‹¤ì‹œ ì‚¬ìš©ìê°€ ì„¤ì •ì„ í•  ìˆ˜ ìˆë„ë¡ ì˜µì…˜ í™œì„±í™”
+        Main.mySqlID.setEnabled(true);
+        Main.mySqlPassword.setEnabled(true);
+        Main.mySqlAddress.setEnabled(true);
+        Main.mySqlPort.setEnabled(true);
+        Main.PC_IP_Client.setEnabled(true);
+        Main.PC_IP_Server.setEnabled(true);
+        Main.Web_IP_Client.setEnabled(true);
+        Main.Web_IP_Server.setEnabled(true);
+        Main.Web_ID_Client.setEnabled(true);
+        Main.Web_ID_Server.setEnabled(true);
+        Main.Web_PW_Client.setEnabled(true);
+        Main.Web_PW_Server.setEnabled(true);
+        Main.Distance.setEnabled(true);
+        //ê²€ìƒ‰ ì™„ë£Œ ì´í›„, [ì¤‘ì§€]ë²„íŠ¼ì„ ë‹¤ì‹œ [ê²€ìƒ‰]ìœ¼ë¡œ ë³€ê²½
+        Main.StartButton.setText("                                         ì‹œì‘                                         ");
+    }
 }
