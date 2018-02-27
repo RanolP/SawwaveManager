@@ -113,15 +113,16 @@ public class ObjectTruck {
                     pl.play();
                     pl.close();
                 } catch (FileNotFoundException | JavaLayerException exception) {
+                    exception.printStackTrace();
                 }
             }
             notifyAll();
             readyOverview = false;
             readyNetwork = false;
-            Main.BufferStore.add(new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()) + "★" + type + "★" + Main.distance.getText() + "★" + txPower + "★" + bandwidth + "★" + channel + "★" + rssi + "★" + txRate + "★" + rxRate + "★" + ccq);
+            Main.bufferStore.add(new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()) + "★" + type + "★" + Main.distance.getText() + "★" + txPower + "★" + bandwidth + "★" + channel + "★" + rssi + "★" + txRate + "★" + rxRate + "★" + ccq);
             model.addRow(new Object[]{Function.count, rssi, txRate, rxRate, ccq});
-            if (Main.BufferStore.size() >= 20)
-                new MySql().dataInsert();
+            if (Main.bufferStore.size() >= 20)
+                MySql.dataInsert();
 
             Function.count++;
         }

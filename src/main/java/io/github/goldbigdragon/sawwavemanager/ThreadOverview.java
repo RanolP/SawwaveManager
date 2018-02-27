@@ -14,11 +14,12 @@ import java.nio.charset.StandardCharsets;
 
 public class ThreadOverview extends Thread {
     public void run() {
-        String url = null;
+        String url;
         try {
             url = "http://" + Main.webIpClient.getText() + "/cgi-bin/luci/?" + URLEncoder.encode("username", "UTF-8") + "=" + URLEncoder.encode(Main.webIdClient.getText(), "UTF-8") + "&" + URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(new String(Main.webPwClient.getPassword()), "UTF-8");
         } catch (UnsupportedEncodingException exception) {
             exception.printStackTrace();
+            return;
         }
 
         while (true) {
@@ -31,8 +32,10 @@ public class ThreadOverview extends Thread {
                 try {
                     WebClient webClient = new WebClient(BrowserVersion.CHROME);
                     webClient.setJavaScriptTimeout(2000L);
+
                     WebRequest webRequest = new WebRequest(new URL(url));
                     webRequest.setCharset(StandardCharsets.UTF_8);
+
                     HtmlPage page = webClient.getPage(webRequest);
                     webClient.waitForBackgroundJavaScript(1500);
                     splitted = page.asText().split("Associated Stations");
@@ -51,23 +54,23 @@ public class ThreadOverview extends Thread {
 				}
 				*/
                 if (splitted != null) {
-                    String Type = splitted[0].split("Overview")[0].split(" - ")[0];
+                    String type = splitted[0].split("Overview")[0].split(" - ")[0];
 
-                    String ResultText = splitted[1].split("System")[0].trim();
-                    String[] Values = ResultText.split("\n")[2].split("\t");
+                    String resultText = splitted[1].split("System")[0].trim();
+                    String[] values = resultText.split("\n")[2].split("\t");
 
-                    if (Values.length >= 9) {
-                        String RSSI = Values[5];
-                        String CCQ = Values[8];
-                        ResultText = ResultText.split("\n")[6];
-                        String Tx_Rate = ResultText.split("\t")[0];
-                        String Rx_Rate = ResultText.split("\t")[1];
+                    if (values.length >= 9) {
+                        String rssi = values[5];
+                        String ccq = values[8];
+                        resultText = resultText.split("\n")[6];
+                        String txRate = resultText.split("\t")[0];
+                        String rxRate = resultText.split("\t")[1];
 
-                        Main.truck.setType(Type);
-                        Main.truck.setRssi(RSSI);
-                        Main.truck.setCcq(CCQ);
-                        Main.truck.setTxRate(Tx_Rate);
-                        Main.truck.setRxRate(Rx_Rate);
+                        Main.truck.setType(type);
+                        Main.truck.setRssi(rssi);
+                        Main.truck.setCcq(ccq);
+                        Main.truck.setTxRate(txRate);
+                        Main.truck.setRxRate(rxRate);
                         Main.truck.setReadyOverview(true);
 
                     } else {

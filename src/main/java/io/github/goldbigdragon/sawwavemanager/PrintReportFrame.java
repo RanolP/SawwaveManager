@@ -6,26 +6,16 @@ import java.awt.*;
 public class PrintReportFrame extends JFrame {
     private static final long serialVersionUID = 1L;
 
-    public static JTextField tableName = new JTextField("                                             ");
-    public JButton freshData = new JButton("최신 자료");
-    public JButton printAllValue = new JButton("상세값 출력");
-    public JButton printAverageValue = new JButton("각 평균값 출력");
-    public JButton printMaximumValue = new JButton("각 최대값 출력");
-    public JButton printMinimumValue = new JButton("각 최소값 출력");
-    public JButton printCcqMaximumValue = new JButton("CCQ 최대값 출력");
-    public JButton printCcqMinimumValue = new JButton("CCQ 최소값 출력");
+    static JTextField tableName = new JTextField("                                             ");
+    private JButton freshData = new JButton("최신 자료");
+    private JButton printAllValue = new JButton("상세값 출력");
+    private JButton printAverageValue = new JButton("각 평균값 출력");
+    private JButton printMaximumValue = new JButton("각 최대값 출력");
+    private JButton printMinimumValue = new JButton("각 최소값 출력");
+    private JButton printCcqMaximumValue = new JButton("CCQ 최대값 출력");
+    private JButton printCcqMinimumValue = new JButton("CCQ 최소값 출력");
 
-
-    public static JFrame printReportFrame;
-
-    public void putBlankLabel(GridBagConstraints constraints, GridBagLayout layout, JPanel searchPanel) {
-        JLabel blankLabel = new JLabel();
-        constraints = new GridBagConstraints();
-        constraints.gridwidth = GridBagConstraints.REMAINDER;
-        layout.setConstraints(blankLabel, constraints);
-        searchPanel.add(blankLabel);
-
-    }
+    static JFrame printReportFrame;
 
     PrintReportFrame() {
         printReportFrame = this;
@@ -39,24 +29,24 @@ public class PrintReportFrame extends JFrame {
     }
 
     private void init() {
-        FlowLayout fl = new FlowLayout();
-        this.setLayout(fl);
+        setLayout(new FlowLayout());
 
-        this.add(new JLabel("출력할 테이블 명 : "));
-        this.add(tableName);
-        this.add(freshData);
-        JPanel ButtonPanel = new JPanel();
-        ButtonPanel.add(printAllValue);
-        ButtonPanel.add(printAverageValue);
-        ButtonPanel.add(printMaximumValue);
-        ButtonPanel.add(printMinimumValue);
-        JPanel ButtonPanel2 = new JPanel();
-        ButtonPanel2.add(printCcqMaximumValue);
-        ButtonPanel2.add(printCcqMinimumValue);
+        add(new JLabel("출력할 테이블 명 : "));
+        add(tableName);
+        add(freshData);
 
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(printAllValue);
+        buttonPanel.add(printAverageValue);
+        buttonPanel.add(printMaximumValue);
+        buttonPanel.add(printMinimumValue);
 
-        this.add(ButtonPanel);
-        this.add(ButtonPanel2);
+        JPanel buttonPanel2 = new JPanel();
+        buttonPanel2.add(printCcqMaximumValue);
+        buttonPanel2.add(printCcqMinimumValue);
+
+        this.add(buttonPanel);
+        this.add(buttonPanel2);
     }
 
     private void addListeners() {

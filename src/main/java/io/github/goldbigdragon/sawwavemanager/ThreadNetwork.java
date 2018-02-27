@@ -23,7 +23,7 @@ public class ThreadNetwork extends Thread {
 
         while (true) {
             if (!Main.started) {
-                new Function().exit(null);
+                Function.exit(null);
                 return;
             }
             if (!Main.truck.isReadyNetwork()) {

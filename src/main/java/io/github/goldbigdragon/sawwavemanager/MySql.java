@@ -124,8 +124,8 @@ public final class MySql {
             String query = "insert into `sawwave_manager`.`" + table + "` (`catchTime`, `Product`, `distance`, `Tx-Power`, `Bandwidth`, `Channel`, `RSSI`, `Tx-Rate`, `Rx-Rate`, `Tx-ccq`) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             PreparedStatement preparedStmt = con.prepareStatement(query);
 
-            for (int count = 0; count < Main.BufferStore.size(); count++) {
-                String[] splitted = Main.BufferStore.get(count).split("★");
+            for (int count = 0; count < Main.bufferStore.size(); count++) {
+                String[] splitted = Main.bufferStore.get(count).split("★");
                 boolean nullValueExit = false;
                 for (int count2 = 0; count2 < 10; count2++) {
                     if (splitted[count2].trim().length() < 1) {
@@ -148,7 +148,7 @@ public final class MySql {
                 }
             }
             con.close();
-            Main.BufferStore.clear();
+            Main.bufferStore.clear();
         } catch (SQLException | ClassNotFoundException e) {
             System.out.println("Mysql Server Not Connection.");
             e.printStackTrace();
