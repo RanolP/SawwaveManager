@@ -12,7 +12,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
-public class Thread_OverView extends Thread {
+public class ThreadOverview extends Thread {
     public void run() {
         String url = null;
         try {

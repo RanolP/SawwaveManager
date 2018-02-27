@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Object_Truck {
+public class ObjectTruck {
     private String type = null;
     private String txPower = null;
     private String bandwidth = null;
@@ -121,7 +121,7 @@ public class Object_Truck {
             Main.BufferStore.add(new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss").format(new Date()) + "★" + type + "★" + Main.distance.getText() + "★" + txPower + "★" + bandwidth + "★" + channel + "★" + rssi + "★" + txRate + "★" + rxRate + "★" + ccq);
             model.addRow(new Object[]{Function.count, rssi, txRate, rxRate, ccq});
             if (Main.BufferStore.size() >= 20)
-                new MySQL().dataInsert();
+                new MySql().dataInsert();
 
             Function.count++;
         }

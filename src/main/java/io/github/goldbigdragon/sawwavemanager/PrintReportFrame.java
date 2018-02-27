@@ -60,12 +60,12 @@ public class PrintReportFrame extends JFrame {
     }
 
     private void addListeners() {
-        freshData.addActionListener(actionEvent -> MySQL.catchFreshData());
-        printAllValue.addActionListener(actionEvent -> MySQL.exportData(0, tableName.getText()));
-        printAverageValue.addActionListener(actionEvent -> MySQL.exportData(1, tableName.getText()));
-        printMaximumValue.addActionListener(actionEvent -> MySQL.exportData(2, tableName.getText()));
-        printMinimumValue.addActionListener(actionEvent -> MySQL.exportData(3, tableName.getText()));
-        printCcqMaximumValue.addActionListener(actionEvent -> MySQL.exportData(4, tableName.getText()));
-        printCcqMinimumValue.addActionListener(actionEvent -> MySQL.exportData(5, tableName.getText()));
+        freshData.addActionListener(actionEvent -> MySql.catchFreshData());
+        printAllValue.addActionListener(actionEvent -> MySql.exportData(0, tableName.getText()));
+        printAverageValue.addActionListener(actionEvent -> MySql.exportData(1, tableName.getText()));
+        printMaximumValue.addActionListener(actionEvent -> MySql.exportData(2, tableName.getText()));
+        printMinimumValue.addActionListener(actionEvent -> MySql.exportData(3, tableName.getText()));
+        printCcqMaximumValue.addActionListener(actionEvent -> MySql.exportData(4, tableName.getText()));
+        printCcqMinimumValue.addActionListener(actionEvent -> MySql.exportData(5, tableName.getText()));
     }
 }

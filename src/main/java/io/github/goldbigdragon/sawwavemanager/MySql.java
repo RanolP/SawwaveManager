@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public final class MySQL {
+public final class MySql {
     static private String id = "root";
     static private String password = null;
     static private String address = "localhost";

@@ -32,8 +32,8 @@ public class Function extends Thread {
         Main.information.setText("　　　　　　　　　　자료 수집 중...　　　　　　　　　　　");
 
         //쓰레드를 사용하여 검색합니다.
-        Thread thread1 = new Thread_OverView();
-        Thread thread2 = new Thread_Network();
+        Thread thread1 = new ThreadOverview();
+        Thread thread2 = new ThreadNetwork();
         thread1.start();
         thread2.start();
     }

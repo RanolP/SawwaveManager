@@ -39,7 +39,7 @@ public class Main extends JFrame {
     public static JFrame SWM;
     public static JLabel information = new JLabel("　　　　　　　　　　　설정 이후, 시작 버튼을 클릭 해 주세요.　　　　　　　　　　　"); // 현재 상태를 나타내는 바.
 
-    public static Object_Truck truck = null;
+    public static ObjectTruck truck = null;
 
     public static ArrayList<String> BufferStore = new ArrayList<>();
 
@@ -155,17 +155,17 @@ public class Main extends JFrame {
                 });
         startButton.addActionListener(e -> {
             if (!started) {
-                MySQL.MySqlSetting(Main.mySqlId.getText(), Main.mySqlPassword.getText(), Main.mySqlAddress.getText(), Integer.parseInt(Main.mySqlPort.getText()));
+                MySql.MySqlSetting(Main.mySqlId.getText(), Main.mySqlPassword.getText(), Main.mySqlAddress.getText(), Integer.parseInt(Main.mySqlPort.getText()));
                 //MySQL 설치 유무 체크
-                if (!MySQL.MySqlInstallTest() || !MySQL.createDatabases()) {
+                if (!MySql.MySqlInstallTest() || !MySql.createDatabases()) {
                     JOptionPane.showMessageDialog(Main.SWM, "MySQL이 설치되지 않았거나\nMySQL 접근 ID, Password 혹은\n연결 주소 및 포트 등의\n정보가 정확하지 않습니다!", "MySQL 동작 에러", JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-                truck = new Object_Truck();
+                truck = new ObjectTruck();
                 Function.startResearch();
             } else {
                 started = false;
-                MySQL.dataInsert();
+                MySql.dataInsert();
             }
         });
 
