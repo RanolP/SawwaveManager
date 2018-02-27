@@ -13,7 +13,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes 'Title': 'Kotbot', 'Version': version, 'Main-Class': 'io.github.goldbigdragon.sawwavemanager.Main'
+        attributes 'Title': 'SawwaveManager', 'Version': version, 'Main-Class': 'io.github.goldbigdragon.sawwavemanager.Main'
     }
 	from configurations.runtime.collect {
 		it.isDirectory() ? it : zipTree(it)
